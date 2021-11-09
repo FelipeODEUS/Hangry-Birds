@@ -6,6 +6,11 @@ var engine, world;
 var box1, box2, ground, pig1, log1;
 var box3,box4,pig2,log2;
 var bird;
+var luaTerra;
+
+function preload(){
+    luaTerra = loadImage("sprite/bg.png");
+}
 
 function setup(){
     var canvas = createCanvas(1200,400);
@@ -27,11 +32,11 @@ function setup(){
 
     box5 = new Box(810,160,70,70);
     log3 = new Log(760, 120, 150, PI/7);
-    log4 = new Log(860, 120, 150, -PI/7);
+    log4 = new Log(870, 120, 150, -PI/7);
 }
 
 function draw(){
-    background(0);
+    background(luaTerra);
     Engine.update(engine);
     box1.display();
     box2.display();
