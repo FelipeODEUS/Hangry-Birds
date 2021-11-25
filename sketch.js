@@ -8,9 +8,12 @@ var box1, pig1;
 var backgroundImg,platform;
 var bird, slingShot;
 var Zoro = "NO ESTILINGUE";
+var fundo, imagemfundo;
+var point = 0;
 
 function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+    //backgroundImg = loadImage("sprites/bg.png");
+    fundomuda();
 }
 
 function setup(){
@@ -50,18 +53,27 @@ function setup(){
 }
 
 function draw(){
-    background(backgroundImg);
+    if(imagemfundo){
+        background(imagemfundo);
+        noStroke();
+        textSize(35);
+        fill("white");
+        text("Pontuação:" + point, width -300,50);
+    }
+    
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();
     box2.display();
     ground.display();
     pig1.display();
+    pig1.score();
     log1.display();
 
     box3.display();
     box4.display();
     pig3.display();
+    pig3.score();
     log3.display();
 
     box5.display();
@@ -71,7 +83,9 @@ function draw(){
     bird.display();
     platform.display();
     //log6.display();
-    slingshot.display();    
+    slingshot.display();
+    
+    
 }
 
 function mouseDragged(){
@@ -80,8 +94,6 @@ function mouseDragged(){
     }
     
 }
-
-
 
 function mouseReleased(){
     slingshot.fly();
@@ -92,6 +104,22 @@ function keyPressed(){
         //slingshot.attach(bird.body);
     }
 }
+
+async function fundomuda(){
+    var resposta = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
+    var respostaJSON = await resposta.json();
+    var dateTime = respostaJSON.datetime;
+    var hora = dateTime.slice(11,13);
+    if(hora >= 6 && hora <= 19 ){
+        fundo = "sprites/bg.png";
+    }
+    else{
+        fundo = "sprites/bg2.jpg";
+    }
+    imagemfundo = loadImage(fundo);
+    //console.log(hora);
+}
+
 
 function tiposDeDados(){
 //Exemplos sobre os diferentes tipos de dados em javascript
