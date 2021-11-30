@@ -9,7 +9,8 @@ var backgroundImg,platform;
 var bird, slingShot;
 var Zoro = "NO ESTILINGUE";
 var fundo, imagemfundo;
-var point = 0;
+placar = 0;
+//var mensagem = "mensagem";
 
 function preload() {
     //backgroundImg = loadImage("sprites/bg.png");
@@ -20,7 +21,6 @@ function setup(){
     var canvas = createCanvas(1200,400);
     engine = Engine.create();
     world = engine.world;
-
 
     ground = new Ground(600,height,1200,20);
     platform = new Ground(150, 305, 300, 170);
@@ -53,12 +53,13 @@ function setup(){
 }
 
 function draw(){
+    //console.log(mensagem);
     if(imagemfundo){
         background(imagemfundo);
         noStroke();
         textSize(35);
         fill("white");
-        text("Pontuação:" + point, width -300,50);
+        text("Pontuação:"+placar, width-300,50);
     }
     
     Engine.update(engine);
@@ -85,13 +86,16 @@ function draw(){
     //log6.display();
     slingshot.display();
     
+    if(bird.body.position > 1200 || bird.body.position < 0){
+        Matter.Body.setPosition(bird.body, {x: 200 , y: 50});
+    }
     
 }
 
 function mouseDragged(){
-    if(Zoro !== "gomu gomu no pistol"){
+    //if(Zoro !== "gomu gomu no pistol"){
         Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
-    }
+    //}
     
 }
 
@@ -100,8 +104,11 @@ function mouseReleased(){
     Zoro = "gomu gomu no pistol";
 }
 function keyPressed(){
-    if(keyCode === 32){
-        //slingshot.attach(bird.body);
+    if(keyCode === 32 && bird.body.speed < 1){
+        bird.redline = [];
+        Matter.Body.setPosition(bird.body, {x: 200 , y: 50});
+        slingshot.attach(bird.body);
+
     }
 }
 
